@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ProjectX1._5.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country.pic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerphoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerCity)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country.pic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerLastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerphoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerCity)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.customerId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.customerId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.customerId })
+        </td>
+    </tr>
+}
+
+</table>

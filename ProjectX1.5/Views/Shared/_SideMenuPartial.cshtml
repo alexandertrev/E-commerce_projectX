@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNet.Identity
+@{ 
+    string userName = User.Identity.GetUserName();
+}
+<!--Natasha ruined everything from here-->
+<div class="side-menu col-sm-2">
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <div class="brand-wrapper">
+                <!-- Hamburger -->
+                <button type="button" class="navbar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Brand -->
+                @*<div class="brand-name-wrapper">
+                    <a class="navbar-brand" href="#">
+                        Brand
+                    </a>
+                </div>*@
+                <!-- Search -->
+                @*<a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>*@
+                <!-- Search body -->
+                <div id="search" class="brand-name-wrapper">
+                    <div class="panel-body">
+                        <form class="navbar-form" role="search" action="@Url.Action("searchData","Search")">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search" name="fromMenu" required>
+                            </div>
+                            <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-search"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Menu -->
+        <div class="side-menu-container">
+            <ul class="nav navbar-nav">
+                <li><a href="@Url.Action("BrowseAlcoholCategory", "AlcoholCategories")"><span class="glyphicon glyphicon-glass"></span> Alcohol </a></li>
+                <li><a href="@Url.Action("BrowseCigarBrands", "CigarBrands")"><span class="glyphicon glyphicon-asterisk"></span> Cigares </a></li>
+                <li><a href="@Url.Action("ShowBundles", "Bundles")"><span class="glyphicon glyphicon-th-list"></span> Bundles </a></li>
+                <li><a href="@Url.Action("AdvancedSearch", "Search")"><span class="glyphicon glyphicon-globe"></span> Advances search </a></li>
+                
+                <!-- Dropdown Admin tools-->
+                @if (userName.Equals("admin@admin.co"))
+                {
+                <li class="panel panel-default" id="dropdown">
+                    <a data-toggle="collapse" href="#dropdown-lvl1-admin">
+                        <span class="glyphicon glyphicon-wrench"></span> Admin tools
+                    </a>
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-lvl1-admin" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <!-- Dropdown level 2 alcohol-->
+                                <li class="panel panel-default" id="dropdown">
+                                    <a data-toggle="collapse" href="#dropdown-lvl2-alcohol">
+                                        <span class="glyphicon glyphicon-minus"></span>Alcohol
+                                    </a>
+                                    <div id="dropdown-lvl2-alcohol" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul class="nav navbar-nav">
+                                                <li><a href="@Url.Action("Index", "AlcoholCategories")">Categories</a></li>
+                                                <li><a href="@Url.Action("Index", "AlcoholProducts")">Products</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- Dropdown level 2 cigares-->
+                                <li class="panel panel-default" id="dropdown">
+                                    <a data-toggle="collapse" href="#dropdown-lvl2-cigares">
+                                        <span class="glyphicon glyphicon-minus"></span>Cigars
+                                    </a>
+                                    <div id="dropdown-lvl2-cigares" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul class="nav navbar-nav">
+                                                <li><a href="@Url.Action("Index", "CigarBrands")">Brand</a></li>
+                                                <li><a href="@Url.Action("Index", "CigaresWrappers")">Wrapper</a></li>
+                                                <li><a href="@Url.Action("Index", "CigaresProducts")">Product</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li><a href="@Url.Action("Index", "Bundles")"><span class="glyphicon glyphicon-minus"></span>Bundles</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <!-- Dropdown Admin tools End-->
+                }
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</div>

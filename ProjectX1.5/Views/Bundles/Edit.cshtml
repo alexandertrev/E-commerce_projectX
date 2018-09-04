@@ -1,0 +1,243 @@
+﻿@model ProjectX1._5.Models.Bundle
+<link href="~/Content/custom-search-form_my.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+<h4>Bundle</h4>
+<hr />
+
+<div class="row">
+    <div class="col-xs-4">
+
+        @using (Html.BeginForm())
+            {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.bundleId)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.bundleName, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.bundleName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.bundleName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.pic, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.pic, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.pic, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.info, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.info, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.info, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="panel panel-default panel-table">
+                        <div class="panel-body">
+                            <table class="table table-striped table-bordered table-list">
+                                <thead>
+                                    <tr>
+                                        <th><em class="fa fa-cog"></em></th>
+                                        <th class="hidden-xs">Product name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dataTableBody1">
+                                    @foreach (var item in Model.BundleInfos)
+                                    {
+                                        <tr>
+                                            <td align="center">
+                                                <button type="button" onclick="RemoveProduct(@item.productID );return" class="btn btn-default"><em class="fa fa-remove"></em></button>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                @Html.DisplayFor(modelItem => item.Product.productName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Product.price)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.quantity)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10 text-center">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="col-md-10 col-md-offset-0">
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-6">
+                            <form id="custom-search-form_my" class="form-search form-horizontal pull-left">
+                                <div class="input-append span12">
+                                    <input id="searchBar" name="searchedData" type="text" class="" placeholder="Search">
+                                    <button type="button" class="btn" onclick="SendData();return"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-list">
+                        <thead>
+                            <tr>
+                                <th><em class="fa fa-cog"></em></th>
+                                <th class="hidden-xs">Pic</th>
+                                <th>Product name</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="panel-footer1" class="panel-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+    var searchedData;
+
+    function GetData(myList)
+    {
+        var old_tbody = $("#dataTableBody");
+        var old_footer = $("#panel-footer1");
+        old_tbody[0].innerHTML = "";
+        old_footer[0].innerHTML = "";
+
+        var dataFromServer = eval('(' + myList + ')');
+        var resultArr = dataFromServer["resultArr"];
+        var numOfPages = Math.ceil(dataFromServer["numOfPages"] / 5);
+        var pageNumber = dataFromServer["pageNumber"];
+
+        for (k = 0; k < resultArr.length; k++)
+        {
+            var newRow = "<tr>" +
+                            "<td align=\"center\" style=\"width: 140px; padding-top: 40px;\">" +
+                                "<button type=\"button\" onclick=\"AddProduct('" + resultArr[k].id + "');return\" class=\"btn btn-default\"><em class=\"fa fa-plus\"></em></button>" +
+                            "</td>" +
+                            "<td class=\"hidden-xs\">" +
+                                "<img src=" + resultArr[k].pic + " alt=\"Smiley face\" height=\"100\" width=\"100\">" +
+                            "</td>" +
+                            "<td>" +
+                                resultArr[k].productName +
+                            "</td>" +
+                            "<td>" +
+                                resultArr[k].price +
+                            "</td>" +
+                        "</tr>";
+            old_tbody.append(newRow);
+        }
+
+        var pages ="";
+        for(var i=1; i<=numOfPages;i++)
+        {
+            pages += "<li><a onclick=\"GetPage('" + i + "');return\">" + i + "</a></li>";
+        }
+
+        var footer = "<div class=\"row\">" +
+                        "<div class=\"col col-xs-4\">" +
+                            "Page "+pageNumber+" of "+numOfPages +
+                        "</div>" +
+                        "<div class=\"col col-xs-8\">" +
+                            "<ul class=\"pagination hidden-xs pull-right\">" +
+                                pages+
+                            "</ul>" +
+                            "<ul class=\"pagination visible-xs pull-right\">" +
+                                "<li><a href=\"#\">«</a></li>" +
+                                "<li><a href=\"#\">»</a></li>" +
+                            "</ul>" +
+                        "</div>" +
+                    "</div>";
+
+        old_footer.append(footer);
+    }
+    function GetPage(pageNumber)
+    {
+        sendData = searchedData + "&pageNumber=" + pageNumber;
+        $.post('@Url.Action("getPage", "Bundles")', sendData, GetData);
+    }
+    function SendData()
+    {
+        var frmData = $("#custom-search-form_my").serialize();
+        searchedData = frmData;
+        $.post('@Url.Action("getPage", "Bundles")', frmData, GetData);
+    }
+
+    function GetProducts(myList)
+    {
+        var old_tbody = $("#dataTableBody1");
+        old_tbody[0].innerHTML = "";
+
+        var resultArr = eval(myList);
+
+        for (k = 0; k < resultArr.length; k++) {
+
+            var newRow = "<tr>" +
+                            "<td align=\"center\">" +
+                                "<button type=\"button\" onclick=\"RemoveProduct('" + resultArr[k].id + "');return\" class=\"btn btn-default\"><em class=\"fa fa-remove\"></em></a>" +
+                            "</td>" +
+                            "<td>" +
+                                resultArr[k].productName +
+                            "</td>" +
+                            "<td>" +
+                                resultArr[k].price +
+                            "</td>" +
+                            "<td>" +
+                                resultArr[k].quantity +
+                            "</td>" +
+                        "</tr>";
+            old_tbody.append(newRow);
+        }
+    }
+
+    function AddProduct(pId) {
+        var frmData = "productId=" + pId;
+        $.post('@Url.Action("addProductToBundle", "Bundles")', frmData, GetProducts);
+    }
+
+    function RemoveProduct(pId) {
+        debugger
+        var frmData = "productId=" + pId;
+        $.post('@Url.Action("removeProductFromBundle", "Bundles")', frmData, GetProducts);
+    }
+</script>

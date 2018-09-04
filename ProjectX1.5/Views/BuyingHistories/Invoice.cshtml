@@ -1,0 +1,96 @@
+﻿@model ProjectX1._5.Models.BuyingHistory
+<link href="~/Content/invoice.css" rel="stylesheet" />
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="invoice-title">
+                <h2>Invoice</h2><h3 class="pull-right">Order # @Model.buyingId</h3>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <address>
+                        <strong>Billed To:</strong><br>
+                        Name: @Model.Customer.customerName-@Model.Customer.customerLastName<br>
+                        City: @Model.Customer.customerCity<br>
+                        Country: @Model.Customer.customerCountry<br>
+                    </address>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address>
+                        <strong>Shipped To:</strong><br>
+                        Name: @Model.firstName-@Model.lastName<br>
+                        Address: @Model.shippmentAddress<br>
+                        City: @Model.shippmentCity<br>
+                        Country: @Model.shippmentCountry
+                    </address>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <address>
+                        <strong>Payment Method:</strong><br>
+                        Credit Card: @Model.creditCardID<br>
+                    </address>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address>
+                        <strong>Order Date:</strong><br>
+                        @Model.buyingDate<br><br>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Order summary</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td><strong>Item</strong></td>
+                                    <td class="text-center"><strong>Price</strong></td>
+                                    <td class="text-center"><strong>Quantity</strong></td>
+                                    <td class="text-right"><strong>Totals</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.BuyingHistoryItems)
+                                {
+                                <tr>
+                                    @if (item.productID != 1012)
+                                    {
+                                        <td>@item.Product.productName</td>
+                                        <td class="text-center">$@item.Product.price</td>
+                                        <td class="text-center">@item.quantity</td>
+                                        <td class="text-right">$@(@item.quantity * @item.Product.price)</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.Bundles.bundleName</td>
+                                        <td class="text-center">$@item.Bundles.price</td>
+                                        <td class="text-center">@item.quantity</td>
+                                        <td class="text-right">$@(@item.quantity * @item.Bundles.price)</td>
+                                    }
+                                </tr>
+                                }
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-center"><strong>Total</strong></td>
+                                    <td class="no-line text-right">$@Model.totalPrice.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

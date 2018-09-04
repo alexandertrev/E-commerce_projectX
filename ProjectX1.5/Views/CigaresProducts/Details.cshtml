@@ -1,0 +1,93 @@
+﻿@model ProjectX1._5.Models.CigaresProduct
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CigaresProduct</h4>
+    <hr />
+
+    <img src="@Model.Product.pic" alt="Smiley face">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.productID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.productID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.productName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.productName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CigarBrand1.brandName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CigarBrand1.brandName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.wrapperType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.wrapperType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.strengthID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CigarStrength.strengthName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.origin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.origin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bundle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bundle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.info)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.productID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

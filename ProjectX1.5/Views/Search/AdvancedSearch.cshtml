@@ -1,0 +1,569 @@
+﻿@model ProjectX1._5.Models.Search
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="~/Content/range_slider.css" rel="stylesheet" />
+<link href="~/Content/product_items.css" rel="stylesheet" />
+<link href="~/Content/p_info.css" rel="stylesheet" />
+<link href="~/Content/loading.css" rel="stylesheet" />
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="form-horizontal col-lg-4" id="searchForm" style="border-right:1px solid #d3d3d3;">
+    <h3>Advanced Search</h3>
+    <hr />
+    <div class="form-group">
+        @Html.Label("Search:", htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <input type="text" id="searchItem" name="searchItem" class="form-control" style="width:255px;">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Price range:", htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <input type="text" id="minPrice" name="minPrice" class="col-md-1" style="padding: 0px; text-align: center; width:35px">
+            <div id="slider-range" class="col-md-9" style="height: 25px;margin-left:5px; margin-right:5px; width:175px;"></div>
+            <input type="text" id="maxPrice" name="maxPrice" class="col-md-1" style="padding: 0px; text-align: center; width:35px"> 
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Seeking:", htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="funkyradio col-md-9">
+            <div class="funkyradio-primary" style="width: 115px;">
+                <input type="checkbox" name="choice" id="choice1"  value="Alcohol"/>
+                <label for="choice1" style="margin-top:0px;">Alcohol</label>
+            </div>
+            <div class="funkyradio-primary" style="width: 115px;">
+                <input type="checkbox" name="choice" id="choice2" value="Cigar"/>
+                <label for="choice2" style="margin-top:0px;">Cigar</label>
+            </div>
+            <div class="funkyradio-primary" style="width: 115px;">
+                <input type="checkbox" name="choice" id="choice3" value="Bundle"/>
+                <label for="choice3" style="margin-top:0px;">Bundle</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" id="searchButton">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Search" onclick="SendData(); return" class="btn btn-primary" id="searchBtn" disabled />
+        </div>
+    </div>
+
+    <div class="form-group" id="alcohol" style="display:none;">
+        <hr />
+        <h4>Alcohol</h4>
+        <div class="form-group">
+            @Html.LabelFor(model => model.categoryID, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.categoryID, Model.AlcoholCategories, "-Select category-", htmlAttributes: new { @class = "form-control", style = "width:250px;" })
+                @Html.ValidationMessageFor(model => model.categoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.alcoholOrigin, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.alcoholOrigin, Model.Contries, "-Select country-", htmlAttributes: new { @class = "form-control", style = "width:250px;" })
+                @Html.ValidationMessageFor(model => model.alcoholOrigin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" id="Cigars" style="display:none;">
+        <hr />
+        <h4>Cigars</h4>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cigarBrand, "cigarBrand", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.cigarBrand, Model.Brands, "-Select brand-", htmlAttributes: new { @class = "form-control", style = "width:250px;" })
+                @Html.ValidationMessageFor(model => model.cigarBrand, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.wrapperType, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.wrapperType, Model.Wrappers, "-Select wrapper-", htmlAttributes: new { @class = "form-control", style = "width:250px;" })
+                @Html.ValidationMessageFor(model => model.wrapperType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.strengthID, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.strengthID, Model.strength, "-Select strength-", htmlAttributes: new { @class = "form-control", style = "width:250px;" })
+                @Html.ValidationMessageFor(model => model.strengthID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cigarOrigin, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.cigarOrigin, Model.Contries, "-Select country-", htmlAttributes: new { @class = "form-control", style = "width:250px;" })
+                @Html.ValidationMessageFor(model => model.cigarOrigin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="container col-lg-8" id="productsDiv">
+    <h3 style="text-align:center;">Search Result</h3>
+    <hr />
+    
+</div>
+
+<script>
+    var page = 1;
+    var searchedData = "";
+
+  $( function() {
+      $("#slider-range").slider({
+      range: true,
+      min: 0,
+      max: 5000,
+      values: [ 75, 2000 ],
+      slide: function( event, ui ) {
+          $("#minPrice").val(ui.values[0]);
+          $("#maxPrice").val(ui.values[1]);
+      }
+      });
+      $("#minPrice").val($("#slider-range").slider("values", 0));
+      $("#maxPrice").val($("#slider-range").slider("values", 1));
+  });
+
+  $(document).ready(function () {
+      $("#minPrice").each(function () {
+          var elem = $(this);
+          elem.data('oldVal', elem.val());
+          elem.bind("propertychange change click keyup input paste", function (event) {
+
+              if (elem.data('oldVal') != elem.val())
+              {
+                  elem.data('oldVal', elem.val());
+
+                  // Do action
+                  if ($("#slider-range").slider("values", 1) < elem.val())
+                  {
+                      $("#slider-range").slider({ values: [elem.val(), elem.val()] });
+                      $("#maxPrice").val(elem.val());
+                  }
+                  else
+                      $("#slider-range").slider({ values: [elem.val(), $("#slider-range").slider("values", 1)] });
+              }
+          });
+      });
+      $("#maxPrice").each(function () {
+          var elem = $(this);
+          elem.data('oldVal', elem.val());
+          elem.bind("propertychange change click keyup input paste", function (event) {
+
+              if (elem.data('oldVal') != elem.val())
+              {
+                  elem.data('oldVal', elem.val());
+
+                  // Do action
+
+                  if ($("#slider-range").slider("values", 0) > elem.val())
+                  {
+                      $("#slider-range").slider({ values: [elem.val(), elem.val()] });
+                      $("#minPrice").val(elem.val());
+                  }
+                  else
+                      $("#slider-range").slider({ values: [$("#slider-range").slider("values", 0), elem.val()] });
+              }
+          });
+      });
+
+      $("#choice1").click(function () {
+          if ($("#alcohol").is(':hidden'))
+              $("#alcohol").slideToggle(500);
+          else if (!($("#choice3").is(":checked")))
+              $("#alcohol").slideToggle(500);
+      });
+
+      $("#choice2").click(function () {
+          if ($("#Cigars").is(':hidden'))
+              $("#Cigars").slideToggle(500);
+          else if (!($("#choice3").is(":checked")))
+              $("#Cigars").slideToggle(500);
+      });
+
+      $("#choice3").click(function () {
+          if ($("#alcohol").is(':hidden'))
+              $("#alcohol").slideToggle(500);
+          else if (!($("#choice1").is(":checked")))
+              $("#alcohol").slideToggle(500);
+
+          if ($("#Cigars").is(':hidden'))
+              $("#Cigars").slideToggle(500);
+          else if (!($("#choice2").is(":checked")))
+              $("#Cigars").slideToggle(500);
+      });
+
+      $(":checkbox").click(function () {
+          if (!($("#choice1").is(":checked")) && !($("#choice2").is(":checked")) && !($("#choice3").is(":checked")))
+              $("#searchBtn").attr("disabled", true);
+          else
+              $("#searchBtn").attr("disabled", false);
+      });
+  });
+
+    function GetData(myList)
+    {
+        debugger
+        var old_tbody = $("#productsDiv");
+        var searchButton = $("#searchButton");
+
+        old_tbody[0].innerHTML = "";
+        searchButton[0].innerHTML = "";
+
+        var newButton = "<div class=\"col-md-offset-2 col-md-10\">"
+                            +"<input type=\"button\" value=\"Search\" onclick=\"SendData(); return\" id=\"searchBtn\" class=\"btn btn-primary\" />"
+                        +"</div>";
+
+        var datafromServer = eval('('+myList+')');
+        var resultArr = datafromServer["pList"];
+        var more = datafromServer["more"];
+
+        var length = resultArr.length;
+
+        var result = "<h3 style=\"text-align:center;\">Search Result</h3><hr />";
+        if (length == 0) {
+            result += "<div>"
+                        +"<p style=\"font-size:large;\">Your search did not match any product</p>"
+                        +"<p>Suggestions:</p>"
+                            +"<ul>"
+                                +"<li>Make sure all words spelled correctly</li>"
+                                +"<li>Try different Keywords</li>"
+                                +"<li>Try more general Keywords</li>"
+                                +"<li>Try different categories</li>"
+                            +"</ul>"
+                        +"</div>";
+            old_tbody.append(result);
+            searchButton.append(newButton);
+            return;
+        }
+
+        var i=0;
+
+        while (i < length) {
+            result += "<div class=\"row\">";
+            //result += "<div class=\"col-md-1\"></div>";
+            for (var j = 0; j < 3 && i < length; j++) {
+                result += "<div class=\"col-xs-12 col-sm-6 col-md-4\">";
+                if (resultArr[i].pType == "bundle") {
+                    z = 0;
+                    result += "<div class=\"col-item\">"
+                                + "<div class=\"info\" style=\"min-height:77px;\">"
+                                    + "<div class=\"row text-center\">"
+                                        + "<h3 style=\"margin-top:0px;\">" + resultArr[i].pName + "</h3>"
+                                    + "</div>"
+                                    + "<div class=\"separator clear-left\">"
+                                    + "</div>"
+                                + "</div>"
+                                + "<div class=\"photo\" style=\"min-height:130px; height:171px;\">"
+                                + "  <ul>";
+                    for (var n = 0; n < resultArr[i].listInBundle.length; n++) {
+                        z++;
+                        if (z == 6) {
+                            result += "<li>More...</li>";
+                            break;
+                        }
+                        result += "<li>" + resultArr[i].listInBundle[n].pName + " x " + resultArr[i].listInBundle[n].quantity + "</li>";
+                    }
+                    result += "</ul>"
+                        + "</div>"
+
+                        + "<div class=\"info\">"
+                          + "  <div class=\"row\">"
+                            + "    <div class=\"price col-md-9\">"
+                              + "      <span class=\"post-title\">"
+                                + "        <b>Bundle</b><br>"
+                                  + "  </span>"
+                                + "</div>"
+                                + "<div class=\"price col-md-3\" style=\"min-height:55px;\">"
+                                    + "<h5 class=\"price-text-color\" style=\"margin-top:30px;\">$" + resultArr[i].price + "</h5>"
+                                + "</div>"
+                            + "</div>"
+                            + "<div class=\"separator clear-left\">"
+                                + "<p class=\"btn-add\">"
+                                   + " <a href=\"/Cart/addItem?pId=" + resultArr[i].productID + "&returnUrl=/Search/AdvancedSearch&pQuantity=1&isBundle=yes\" class=\"btn btn-success btn-product\"><span class=\"glyphicon glyphicon-shopping-cart\"></span> Add to cart</a>"
+                                + "</p>"
+                                + "<p class=\"btn-details\">"
+                                   + " <button type=\"button\" style=\"margin-left:-5px\" class=\"btn btn-primary btn-product\" data-toggle=\"modal\" data-target=\"#product_view-" + i + "\"><span class=\"glyphicon glyphicon-list\"></span> More details</button>"
+                                + "</p>"
+                            + "</div>"
+                            + "<div class=\"clearfix\">"
+                            + "</div>"
+                        + "</div>"
+                    + "</div>";
+                }
+                else {
+                    result += " <div class=\"col-item\">"
+                     + "   <div class=\"photo\" style=\"min-height:231.33px\">"
+                       + "     <img src=" + resultArr[i].pic + " class=\"img-responsive\" alt=\"a\" style=\"height: 264px;  width: 166px;\" />"
+                        + "</div>"
+                        + "<div class=\"info\">"
+                          + " <div class=\"row\">"
+                              + "  <div class=\"price col-md-12\">"
+                                + "    <h5>" + resultArr[i].pName + "</h5>"
+                                  + "  <h5 class=\"price-text-color\">$" + resultArr[i].price + "</h5>"
+                               + " </div>"
+                            + "</div>"
+                            + "<div class=\"separator clear-left\">"
+                              + "  <p class=\"btn-add\">"
+                                + "    <a href=\"/Cart/addItem?pId=" + resultArr[i].productID + "&returnUrl=/Search/AdvancedSearch&pQuantity=1&isBundle=no\" class=\"btn btn-success btn-product\"><span class=\"glyphicon glyphicon-shopping-cart\"></span> Add to cart</a>"
+                                + "</p>"
+                                + "<p class=\"btn-details\">"
+                                  + "  <button type=\"button\" style=\"margin-left:-5px\" class=\"btn btn-primary btn-product\" data-toggle=\"modal\" data-target=\"#product_view-"+i+"\"><span class=\"glyphicon glyphicon-list\"></span> More details</button>"
+                                + "</p>"
+                            + "</div>"
+                            + "<div class=\"clearfix\">"
+                            + "</div>"
+                        + "</div>"
+                    + "</div>";
+                }
+                result += "<div class=\"modal fade product_view\" id=\"product_view-" + i + "\">";
+                if (resultArr[i].pType == "alcohol") {
+                    result += "<div class=\"modal-dialog\">"
+                       + "     <div class=\"modal-content\">"
+                          + "      <div class=\"modal-header\">"
+                             + "       <a href=\"#\" data-dismiss=\"modal\" class=\"class pull-right\"><span class=\"glyphicon glyphicon-remove\"></span></a>"
+                                + "    <h3 class=\"modal-title\">" + resultArr[i].pName + "</h3>"
+                               + " </div>"
+                                + "<div class=\"modal-body\">"
+                                   + " <div class=\"row\">"
+                                      + "  <div class=\"col-md-4 product_img\">"
+                                         + "   <img src=" + resultArr[i].pic + " class=\"img-responsive\">"
+                                        + "</div>"
+                                        + "<div class=\"col-md-8 product_content\">"
+                                           + " <h4>Product Id: <span>" + resultArr[i].productID + "</span></h4>"
+                                            + "<dl class=\"dl-horizontal left\">"
+                                               + " <dt>Category:</dt>"
+                                      + "          <dd>" + resultArr[i].alcoholType + "</dd>"
+
+                                               + " <dt>Volume %:</dt>"
+                                                + "<dd>" + resultArr[i].alcoholVolume + "</dd>"
+
+                                                + "<dt>Origin:</dt>"
+                                                + "<dd>" + resultArr[i].country + "</dd>"
+                                            + "</dl>";
+                                            if (resultArr[i].info != null) {
+                                                result += "<p>" + resultArr[i].info + "</p>";
+                                            }
+                                            result += "<h3 class=\"cost\"><span class=\"glyphicon glyphicon-usd\"></span>" + resultArr[i].price + ".00</h3>"
+                                            + "<form action=\"/Cart/addItem\">"
+                                                    + "<input type=\"hidden\" name=\"pId\" value=\"" + resultArr[i].productID + "\">"
+                                                    + "<input type=\"hidden\" name=\"returnUrl\" value=\"Search/AdvancedSearch\">"
+                                                    + "<input type=\"hidden\" name=\"isBundle\" value=\"no\">"
+                                                    + "<div class=\"row\">"
+                                                        + "<div class=\"col-md-4 col-sm-12\">"
+                                                         + " Quantity: <input type=\"number\" name=\"pQuantity\" value=\"1\" min=\"1\" max=\"10\" />"
+                                                       + " </div>"
+                                                       + " <!-- end col -->"
+                                                    + "</div>"
+                                                   + " <div class=\"space-ten\"></div>"
+                                                   + " <div class=\"btn-ground\">"
+                                                      + "  <button type=\"submit\" class=\"btn btn-primary btn-product\" id=\"addToCart\"><span class=\"glyphicon glyphicon-shopping-cart\"></span> Add to cart</button>"
+                                                      + "  <a href=\"/WatchList/AddToWatchList?pId=" + resultArr[i].productID + "&isBundle=no\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-heart\"></span> Add To Wishlist</a>"
+                                                    + "</div>"
+                                            + " </form>"
+                                       + " </div>"
+                                  + "  </div>"
+                               + " </div>"
+                         + "   </div>"
+                      + "  </div>";
+                }
+                else if(resultArr[i].pType == "cigar")
+                {
+                    result += "<div class=\"modal-dialog\">"
+                                + "<div class=\"modal-content\">"
+                                    + "<div class=\"modal-header\">"
+                                        + "<a href=\"#\" data-dismiss=\"modal\" class=\"class pull-right\"><span class=\"glyphicon glyphicon-remove\"></span></a>"
+                                        + "<h3 class=\"modal-title\">" + resultArr[i].pName + "</h3>"
+                                    + "</div>"
+                                    + "<div class=\"modal-body\">"
+                                        + "<div class=\"row\">"
+                                            + "<div class=\"col-md-4 product_img\">"
+                                                + "<img src=" + resultArr[i].pic + "class=\"img-responsive\">"
+                                            + "</div>"
+                                            + "<div class=\"col-md-8 product_content\">"
+                                                + "<h4>Product Id: <span>" + resultArr[i].productID + "</span></h4>"
+                                                + "<dl class=\"dl-horizontal left\">"
+                                                    + "<dt>Brand:</dt>"
+
+                                                    + "<dd>" + resultArr[i].cigarBrand + "</dd>"
+
+                                                    + "<dt>Wrapper:</dt>"
+
+                                                    + "<dd>" + resultArr[i].cigarWrapper + "</dd>"
+
+                                                    + "<dt>Strength:</dt>"
+
+                                                    + "<dd>" + resultArr[i].cigarStrength + "</dd>"
+
+                                                    + "<dt>Origin:</dt>"
+
+                                                    + "<dd>" + resultArr[i].country + "</dd>"
+
+                                                    + "<dt>Bundle of:</dt>"
+
+                                                    + "<dd>" + resultArr[i].cigarBundle + "</dd>"
+                                                + "</dl>";
+                                                if (resultArr[i].info != null)
+                                                {
+                                                    result +="<p>" + resultArr[i].info + "</p>";
+                                                }
+
+                                                result += "<h3 class=\"cost\"><span class=\"glyphicon glyphicon-usd\"></span>" + resultArr[i].price + ".00</h3>"
+                                                + "<form action=\"/Cart/addItem\">"
+                                                        + "<input type=\"hidden\" name=\"pId\" value=\"" + resultArr[i].productID + "\">"
+                                                        + "<input type=\"hidden\" name=\"returnUrl\" value=\"Search/AdvancedSearch\">"
+                                                        + "<input type=\"hidden\" name=\"isBundle\" value=\"no\">"
+                                                        + "<div class=\"row\">"
+                                                            + "<div class=\"col-md-4 col-sm-12\">"
+                                                                + " Quantity: <input type=\"number\" name=\"pQuantity\" value=\"1\" min=\"1\" max=\"10\" />"
+                                                            + " </div>"
+                                                            + " <!-- end col -->"
+                                                        + "</div>"
+                                                        + " <div class=\"space-ten\"></div>"
+                                                        + " <div class=\"btn-ground\">"
+                                                            + "  <button type=\"submit\" class=\"btn btn-primary btn-product\" id=\"addToCart\"><span class=\"glyphicon glyphicon-shopping-cart\"></span> Add to cart</button>"
+                                                            + "  <a href=\"/WatchList/AddToWatchList?pId=" + resultArr[i].productID + "&isBundle=no\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-heart\"></span> Add To Wishlist</a>"
+                                                        + "</div>"
+                                                + " </form>"
+                                            + "</div>"
+                                        + "</div>"
+                                    + "</div>"
+                                + "</div>"
+                            + "</div>";
+                }
+                else
+                {
+                    result += " <div class=\"modal-dialog\">"
+                         + "<div class=\"modal-content\">"
+                             + "<div class=\"modal-header\">"
+                                 + "<a href=\"#\" data-dismiss=\"modal\" class=\"class pull-right\"><span class=\"glyphicon glyphicon-remove\"></span></a>"
+                                 + "<h3 class=\"modal-title\">" + resultArr[i].pName + "</h3>"
+                             + "</div>"
+                             + "<div class=\"modal-body\">"
+                                 + "<table class=\"table table-striped table-bordered table-list\">"
+                                     + "<thead>"
+                                         + "<tr>"
+                                             + "<th>Pic</th>"
+                                             + "<th class=\"hidden-xs\">Product name</th>"
+                                             + "<th>Price</th>"
+                                             + "<th>Quantity</th>"
+                                         + "</tr>"
+                                     + "</thead>"
+                                     + "<tbody id=\"dataTableBody\">";
+                    for (var n = 0; n < resultArr[i].listInBundle.length; n++) {
+                        result += "<tr>"
+                                    + "<td align=\"center\" style=\"width: 140px;\">"
+                                        + "<img src=\"" + resultArr[i].listInBundle[n].pic + "\" alt=\"Smiley face\" height=\"100\" width=\"100\">"
+                                    + "<td class=\"hidden-xs\">"
+                                        + resultArr[i].listInBundle[n].pName
+                                    + "</td>"
+                                    + "<td>"
+                                        + resultArr[i].listInBundle[n].price
+                                    + "</td>"
+                                    + "<td>"
+                                        + resultArr[i].listInBundle[n].quantity
+                                    + "</td>"
+                                + "</tr>";
+                    }
+                    result += "</tbody>"
+                                    + "</table>"
+                                    + "<form action=\"/Cart/addItem\">"
+                                    + "<input type=\"hidden\" name=\"pId\" value=\"" + resultArr[i].productID + "\">"
+                                    + "<input type=\"hidden\" name=\"returnUrl\" value=\"/Search/AdvancedSearch\">"
+                                    + "<input type=\"hidden\" name=\"isBundle\" value=\"yes\">"
+                                        + "<div class=\"row\">"
+                                            + "<div class=\"col-md-4 col-sm-12\">"
+                                + "Quantity: <input type=\"number\" name=\"pQuantity\" value=\"1\" min=\"1\" max=\"10\" />"
+                                            + "</div>"
+                                            + "<!-- end col -->"
+                                       + " </div>"
+                                        + "<div class=\"space-ten\"></div>"
+                                        + "<div class=\"btn-ground\">"
+                                            + "<button type=\"submit\" class=\"btn btn-primary btn-product\" id=\"addToCart\"><span class=\"glyphicon glyphicon-shopping-cart\"></span> Add to cart</button>"
+                                            + "<a href=\"/WatchList/AddToWatchList?pId=" + resultArr[i].productID + "&isBundle=yes\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-heart\"></span> Add To Wishlist</a>"
+                                        + "</div>"
+                            + "</form>"
+                                + "</div>"
+                            + "</div>"
+                        + "</div>";
+                }
+                result += "</div></div>";
+                i++;
+
+            }
+            result += "</div><br />";
+        }
+        if(more == "yes")
+            result += "<div class=\"row\" style=\"text-align:center\" id=\"moreBtn\">"
+                        +"<input type=\"button\" onclick=\"GetPage();return\" class=\"btn btn-primary\" id=\"getPageBtn\" value=\"More\" style=\"width:100%\" />"
+                    +"</div>";
+
+        old_tbody.append(result);
+        searchButton.append(newButton);
+  }
+
+    function SendData() {
+        var old_tbody = $("#productsDiv");
+        var searchButton = $("#searchButton");
+
+        old_tbody[0].innerHTML = "";
+        searchButton[0].innerHTML = "";
+
+        var newButton = "<div class=\"col-md-offset-2 col-md-10\">"
+                            +"<button class=\"btn btn-primary\" disabled><i class=\"fa fa-spinner fa-spin\"></i>Search</button>"
+                        +"</div>";
+
+        var loading = "<h3 style=\"text-align:center;\">Search Result</h3><hr />"
+                     +"<div class=\"container\" style=\"margin-top:380px;\">"
+	                    +"<div class=\"row\">"
+		                    +"<div id=\"loader\">"
+    		                    +"<div class=\"dot\"></div>"
+			                    +"<div class=\"dot\"></div>"
+			                    +"<div class=\"dot\"></div>"
+			                    +"<div class=\"dot\"></div>"
+			                    +"<div class=\"dot\"></div>"
+			                    +"<div class=\"dot\"></div>"
+			                    +"<div class=\"dot\"></div>"
+			                    +"<div class=\"dot\"></div>"
+			                    +"<div class=\"lading\"></div>"
+		                    +"</div>"
+	                    +"</div>"
+                    + "</div>";
+
+        //var loading = "<div class=\"row\" style=\"text-align: center;\">"
+        //                    +"<img src=\"~/Pics/searching.gif\" />"
+        //                + "</div>";
+
+        old_tbody.append(loading);
+        searchButton.append(newButton);
+
+        var frmData = $("#searchForm").serialize();
+        searchedData = frmData;
+        page = 1;
+        var sendData = searchedData + "&pageNumber=" + page;
+        $.post('@Url.Action("searchData", "Search")', sendData, GetData);
+  }
+
+    function GetPage()
+    {
+        var moreBtn = $("#moreBtn");
+
+        moreBtn[0].innerHTML = "<button type=\"button\" class=\"btn btn-primary\" style=\"width:34%;\" disabled><i class=\"fa fa-spinner fa-spin\"></i> More</button>";
+        //moreBtn[0].innerHTML = "<input type=\"button\" onclick=\"GetPage();return\" class=\"btn btn-primary\" id=\"getPageBtn\" value=\"<i class=\"fa fa-spinner fa-spin\"></i> More\" style=\"width:100%\" />";
+        page++;
+        var sendData = searchedData + "&pageNumber=" + page;
+        $.post('@Url.Action("searchData", "Search")', sendData, GetData);
+    }
+</script>

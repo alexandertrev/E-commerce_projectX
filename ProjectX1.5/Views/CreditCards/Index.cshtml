@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ProjectX1._5.Models.ShowCard>
+<link href="~/Content/custom-search-form_my.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="col-md-10 col-md-offset-0">
+    <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col col-xs-6">
+                    
+                </div>
+                <div class="col col-xs-6 text-right">
+                    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-sm btn-primary btn-create" })
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-bordered table-list">
+                <thead>
+                    <tr>
+                        <th><em class="fa fa-cog"></em></th>
+                        <th class="hidden-xs">@Html.DisplayNameFor(model => model.creditCardID)</th>
+                        <th>@Html.DisplayNameFor(model => model.creditType)</th>
+                        <th>@Html.DisplayNameFor(model => model.expirationMonth)</th>
+                        <th>@Html.DisplayNameFor(model => model.expirationYear)</th>
+                        <th>@Html.DisplayNameFor(model => model.ownerName)</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td align="center" style="width: 140px;">
+                                <a href="@Url.Action("BeforeEdit", "CreditCards",new { id=item.id, card4Digits=item.card4Digits, operation= "Edit" })" class="btn btn-default"><em class="fa fa-pencil"></em></a>
+                                <a href="@Url.Action("BeforeEdit", "CreditCards",new { id=item.id, card4Digits=item.card4Digits, operation= "Delete" })" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                            </td>
+                            <td class="hidden-xs">
+                                @Html.DisplayFor(modelItem => item.creditCardID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.creditType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.expirationMonth)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.expirationYear)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ownerName)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

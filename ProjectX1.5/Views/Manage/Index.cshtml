@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNet.Identity
+@model ProjectX1._5.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+    string userName = User.Identity.GetUserName();
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Account info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>First name:</dt>
+        <dd>
+           @Model.cust.customerName
+        </dd>
+        <dt>Last name:</dt>
+        <dd>
+            @Model.cust.customerLastName
+        </dd>
+        <dt>City:</dt>
+        <dd>
+            @Model.cust.customerCity
+        </dd>
+        <dt>Country:</dt>
+        <dd>
+            @Model.cust.customerCountry
+        </dd>
+        <dt>Phone number:</dt>
+        <dd>
+            @Model.cust.customerphoneNumber
+        </dd>
+    </dl>
+
+    <br />
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>Personal info:</dt>
+        <dd>
+            [@Html.ActionLink("change", "UpdateInfo","Customers", new { id = Model.cust.customerId}, null)]
+        </dd>
+        <dt>Credit cards:</dt>
+        <dd>
+            [@Html.ActionLink("manage", "Index", "CreditCards", new { id = Model.cust.customerId }, null)]
+        </dd>
+        <dt>Purchase history:</dt>
+        <dd>
+            [@Html.ActionLink("view", "Index", "BuyingHistories", new { id = Model.cust.customerId }, null)]
+        </dd>
+        <dt>Watch List:</dt>
+        <dd>
+            [@Html.ActionLink("view", "Index", "WatchList", new { id = Model.cust.customerId }, null)]
+        </dd>
+    </dl>
+</div>

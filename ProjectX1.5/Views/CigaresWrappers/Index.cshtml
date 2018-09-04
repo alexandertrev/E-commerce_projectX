@@ -1,0 +1,99 @@
+﻿@model IEnumerable<ProjectX1._5.Models.CigaresWrapper>
+<link href="~/Content/custom-search-form_my.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Cigar Wrappers Index</h2>
+<div class="col-md-10 col-md-offset-0">
+    <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col col-xs-6">
+                    <form id="custom-search-form_my" class="form-search form-horizontal pull-left">
+                        <div class="input-append span12">
+                            <input id="searchBar" name="searchedData" type="text" class="" placeholder="Search">
+                            <button type="button" class="btn" onclick="SendData();return"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col col-xs-6 text-right">
+                    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-sm btn-primary btn-create" })
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-bordered table-list">
+                <thead>
+                    <tr>
+                        <th><em class="fa fa-cog"></em></th>
+                        <th class="hidden-xs">@Html.DisplayNameFor(model => model.wrapperName)</th>
+                        <th>@Html.DisplayNameFor(model => model.color)</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td align="center" style="width: 140px;">
+                                <a href="@Url.Action("Details", "CigaresWrappers",new { id=item.wrapperName  })" class="btn btn-default"><em class="fa fa-info-circle"></em></a>
+                                <a href="@Url.Action("Edit", "CigaresWrappers",new { id=item.wrapperName  })" class="btn btn-default"><em class="fa fa-pencil"></em></a>
+                                <a href="@Url.Action("Delete", "CigaresWrappers",new { id=item.wrapperName  })" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                            </td>
+                            <td class="hidden-xs">
+                                @Html.DisplayFor(modelItem => item.wrapperName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.color)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+
+    function GetData(myList)
+    {
+        var old_tbody = $("#dataTableBody");
+        old_tbody[0].innerHTML = "";
+
+        var resultArr = eval(myList);
+
+        for (k = 0; k < resultArr.length; k++)
+        {
+            var url1 = '@Url.Action("Details", "CigaresWrappers", new { id = "js-id" })'
+              .replace("js-id", encodeURIComponent(resultArr[k].id));
+            var url2 = '@Url.Action("Edit", "CigaresWrappers", new { id = "js-id" })'
+              .replace("js-id", encodeURIComponent(resultArr[k].id));
+            var url3 = '@Url.Action("Delete", "CigaresWrappers", new { id = "js-id" })'
+              .replace("js-id", encodeURIComponent(resultArr[k].id));
+
+            var newRow = "<tr>" +
+                            "<td align=\"center\" style=\"width: 140px;\">" +
+                                "<a href=\"" + url1 + "\"class=\"btn btn-default\"><em class=\"fa fa-info-circle\"></em></a>" +
+                                "<a href=\"" + url2 + "\"class=\"btn btn-default\"><em class=\"fa fa-pencil\"></em></a>" +
+                                "<a href=\"" + url3 + "\"class=\"btn btn-danger\"><em class=\"fa fa-trash\"></em></a>" +
+                            "</td>" +
+                            "<td class=\"hidden-xs\">" +
+                                resultArr[k].wrapperName +
+                            "</td>" +
+                            "<td>" +
+                                resultArr[k].color +
+                            "</td>" +
+                        "</tr>";
+            old_tbody.append(newRow);
+        }
+    }
+
+    function SendData()
+    {
+        var frmData = $("#custom-search-form_my").serialize();
+        $.post('@Url.Action("searchData", "CigaresWrappers")', frmData, GetData);
+    }
+</script>

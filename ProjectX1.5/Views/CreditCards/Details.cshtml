@@ -1,0 +1,67 @@
+﻿@model ProjectX1._5.Models.CreditCard
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CreditCard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.customerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.customerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.creditType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.creditType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ownerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ownerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expirationMonth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expirationMonth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expirationYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expirationYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.securityDigits)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.securityDigits)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.creditCardID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

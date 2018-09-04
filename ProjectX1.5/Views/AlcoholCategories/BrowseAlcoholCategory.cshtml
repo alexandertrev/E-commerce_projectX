@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ProjectX1._5.Models.AlcoholCategory>
+<link href="~/Content/categories.css" rel="stylesheet" />
+<link href="~/Content/categories2.css" rel="stylesheet" />
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerator<ProjectX1._5.Models.AlcoholCategory> categories = Model.GetEnumerator();
+}
+
+<div class="home-doctors clearfix">
+    <h2 class="title text-center">Choose Category</h2>
+    <div class="container">
+        @{
+            Boolean flag = true;
+            while (flag)
+            {
+            <div class="row">
+                <br />
+                <!-- entrys -->
+                @for (int j = 0; j < 4 && flag == true; j++)
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-6 text-center doc-item">
+                        @if (categories.MoveNext())
+                        {
+                            <div class="common-doctor animated fadeInUp clearfix ae-animation-fadeInUp col-item">
+                                <div class="photo">
+                                    <figure>
+                                        <a href="@Url.Action("ShowCategoryProducts", "AlcoholProducts", new { id = categories.Current.id })">
+                                            <img style="max-height: 270px; min-height:200px" src=@categories.Current.pic class="doc-img animate attachment-gallery-post-single wp-post-image" alt="doctor-2">
+                                        </a>
+                                    </figure>
+                                </div>
+                                <div class="info">
+                                    <div class="separator clear-left">
+                                        <div class="text-content">
+                                            <h5>@categories.Current.categoryName</h5>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            flag = false;
+                        }
+                    </div>
+                    <div class="visible-sm clearfix margin-gap"></div>
+                }
+            </div>
+            }
+        }
+    </div>
+</div>
+
+

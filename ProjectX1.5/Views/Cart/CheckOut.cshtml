@@ -1,0 +1,207 @@
+﻿@model ProjectX1._5.Models.CheckOut
+
+@{
+    ProjectX1._5.Models.Cart cart = (ProjectX1._5.Models.Cart)Session["Cart"];
+    string returnUrl = (string)TempData["returnUrl"];
+    if (returnUrl == null)
+    {
+        returnUrl = Url.Action("Index", "Home", null);
+    }
+
+    int sum = 0;
+}
+
+<link href="~/Content/checkOut.css" rel="stylesheet" />
+<div class="container wrapper">
+    <br/>
+
+    <div class="row cart-body">
+        <div class="form-horizontal">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
+                <!--REVIEW ORDER-->
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Review Order <div class="pull-right"><small><a class="afix-1" href="#">Edit Cart</a></small></div>
+                    </div>
+                    <div class="panel-body">
+                    @foreach (var item in cart.myCart)
+                    {
+                        sum = item.quantity * item.price;
+                        <div class="form-group">
+                            <div class="col-sm-3 col-xs-3">
+                                <img class="img-responsive" src="@item.pic" style="width: 72px; height: 72px;"/>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <div class="col-xs-12">@item.pName</div>
+                                <div class="col-xs-12"><small>Quantity:<span>@item.quantity</span></small></div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 text-right">
+                                <h6><span>$</span>@sum</h6>
+                            </div>
+                        </div>
+                        <div class="form-group"><hr /></div>
+                    }
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <strong>Order Total</strong>
+                                <div class="pull-right"><span>$</span><span>@cart.totalPrice</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--REVIEW ORDER END-->
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
+                <!--SHIPPING METHOD-->
+                @using (Html.BeginForm("CheckOut", "Cart"))
+                {
+                <div class="panel panel-info">
+                    <div class="panel-heading">Address</div>
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <h4>Shipping Address</h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>Country:</strong></div>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.history.bh.shippmentCountry, Model.history.country, "-Select country-", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.history.bh.shippmentCountry, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-xs-12">
+                                <strong>First Name:</strong>
+                                @Html.EditorFor(model => model.history.bh.firstName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.history.bh.firstName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="span1"></div>
+                            <div class="col-md-6 col-xs-12">
+                                <strong>Last Name:</strong>
+                                @Html.EditorFor(model => model.history.bh.lastName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.history.bh.lastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>Address:</strong></div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.history.bh.shippmentAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.history.bh.shippmentAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>City:</strong></div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.history.bh.shippmentCity, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.history.bh.shippmentCity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.history.bh.postalCode, new { htmlAttributes = new { @class = "form-control", onkeypress = "return event.charCode >= 48 && event.charCode <= 57" } })
+                                @Html.ValidationMessageFor(model => model.history.bh.postalCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>Phone Number:</strong></div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.history.bh.phoneNumber, new { htmlAttributes = new { @class = "form-control", onkeypress = "return event.charCode >= 48 && event.charCode <= 57" } })
+                                @Html.ValidationMessageFor(model => model.history.bh.phoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>Choose card:</strong></div>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.history.bh.creditCardID, Model.history.cards, "-Select card-", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.history.bh.creditCardID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <button type="submit" class="btn btn-primary btn-submit-fix">Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                <!--SHIPPING METHOD END-->
+                <!--CREDIT CART ADD-->
+                @using (Html.BeginForm("CreateInCheckOut", "CreditCards"))
+                {
+                  <div class="panel panel-info">
+                      <div class="panel-heading"><span><i class="glyphicon glyphicon-lock"></i></span> Secure Payment</div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Name on card:</strong></div>
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.card.ownerName, new { htmlAttributes = new { @class = "form-control", placeholder = "Card Holder's Name" } })
+                                    @Html.ValidationMessageFor(model => model.card.ownerName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Card Type:</strong></div>
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(model => model.card.creditType, Model.creditTypes, "-Select type-", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.card.creditType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Credit Card Number:</strong></div>
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.card.creditCardID, new { htmlAttributes = new { @class = "form-control", placeholder = "Debit/Credit Card Number", onkeypress = "return event.charCode >= 48 && event.charCode <= 57" } })
+                                    @Html.ValidationMessageFor(model => model.card.creditCardID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Card CVV:</strong></div>
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.card.securityDigits, new { htmlAttributes = new { @class = "form-control", placeholder = "Security Code", onkeypress = "return event.charCode >= 48 && event.charCode <= 57" } })
+                                    @Html.ValidationMessageFor(model => model.card.securityDigits, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <strong>Expiration Date</strong>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.card.expirationMonth, Model.months, "-Select month-", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.card.expirationMonth, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.card.expirationYear, Model.years, "-Select month-", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.card.expirationYear, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <span>Pay secure using your credit card.</span>
+                                </div>
+                                <div class="col-md-12">
+                                    <ul class="cards">
+                                        <li class="visa hand">Visa</li>
+                                        <li class="mastercard hand">MasterCard</li>
+                                        <li class="amex hand">Amex</li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <button type="submit" class="btn btn-primary btn-submit-fix">Add Card</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!--CREDIT CART ADD END-->
+            </div>
+
+        </div>
+    </div>
+    <div class="row cart-footer">
+
+    </div>
+</div>

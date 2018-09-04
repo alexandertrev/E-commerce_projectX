@@ -1,0 +1,73 @@
+﻿@model ProjectX1._5.Models.ShowCard
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CreditCard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.creditCardID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.creditCardID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.creditType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.creditType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ownerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ownerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expirationMonth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expirationMonth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expirationYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expirationYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.securityDigits)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.securityDigits)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

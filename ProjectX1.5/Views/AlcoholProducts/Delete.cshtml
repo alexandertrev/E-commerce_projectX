@@ -1,0 +1,67 @@
+﻿@model ProjectX1._5.Models.AlcoholProduct
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AlcoholProduct</h4>
+    <hr />
+
+    <img src="@Model.Product.pic" alt="Smiley face" height="100" width="100">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.productName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.productName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.categoryID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlcoholCategory.categoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.volume)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.volume)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.origin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.origin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.price)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-create" })
+        </div>
+    }
+</div>

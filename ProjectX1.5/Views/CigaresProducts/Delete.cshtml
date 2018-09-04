@@ -1,0 +1,51 @@
+﻿@model ProjectX1._5.Models.CigaresProduct
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CigaresProduct</h4>
+    <hr />
+
+    <img src="@Model.Product.pic" alt="Smiley face" height="100" width="100">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.productID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.productID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.productName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.productName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CigarBrand1.brandName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CigarBrand1.brandName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

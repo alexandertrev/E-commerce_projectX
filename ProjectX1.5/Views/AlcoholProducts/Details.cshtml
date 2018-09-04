@@ -1,0 +1,68 @@
+﻿@model ProjectX1._5.Models.AlcoholProduct
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Alcohol Product</h4>
+    <hr />
+
+    <img src="@Model.Product.pic" alt="Smiley face" style="max-height:300px; max-width:300px;">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.productName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.productName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.categoryID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlcoholCategory.categoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.volume)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.volume)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.origin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.origin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.info)
+        </dd>
+    </dl>
+</div>
+<p> 
+    @Html.ActionLink("Edit", "Edit", new { id = Model.productID }, new { @class = "btn btn-danger" })
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-create" })
+</p>
